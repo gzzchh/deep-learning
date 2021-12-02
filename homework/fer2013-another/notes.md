@@ -64,3 +64,17 @@ FaceModel 是从网上找到的,基本上就是按照标准卷积模型结构来
 ## 关于绘图
 
 需要固定集中方式,做 5 回实验,保存其图表作为素材
+
+## 参考
+
+https://blog.csdn.net/u013249853/article/details/89393982
+
+https://blog.csdn.net/qq_42079689/article/details/102806940
+
+https://www.cnblogs.com/lliuye/p/9471231.html
+
+https://www.youtube.com/watch?v=yN7qfBhfGqs
+
+https://blog.csdn.net/qq_35762060/article/details/110545612
+
+https://blog.csdn.net/qq_43815869/article/details/110562733
