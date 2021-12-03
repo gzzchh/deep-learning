@@ -14,21 +14,21 @@ testDataSet = FaceDataSet.FaceDataSet(root='datasets-labeled', labelFile='test.c
 net = FaceModel.FaceModel()
 learningRate = 0.001
 epochs = 100
-optimizer = optim.AdamW(net.parameters(), lr=learningRate, weight_decay=0.1)
 
 
-# 根据参数动态调整
-# scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'max', verbose=1, patience=3)
-# 余弦退火
-# 多间隔
-
-
-def trainBenchmark(modelNamePrefix, optimizer, scheduler, net):
+def trainBenchmark(modelNamePrefix, schedulerChoice, net):
+    """
+    
+    :param modelNamePrefix: 
+    :param optimizer:  
+    :param schedulerChoice: 在这里写选择的衰减函数名称
+    :param net: 
+    :return: 
+    """
     for i in range(5):
-        optimizer.zero_grad()
         model, lossRateList, learnRateList, trainAccList, testAccList, epochList = mytrain.train(trainDataSet,
                                                                                                  testDataSet, net,
-                                                                                                 scheduler, optimizer,
+                                                                                                 schedulerChoice,
                                                                                                  batchSize=64,
                                                                                                  epochs=epochs,
                                                                                                  learningRate=learningRate)
@@ -38,17 +38,10 @@ def trainBenchmark(modelNamePrefix, optimizer, scheduler, net):
         plt.plot(epochList, trainAccList, color="green", label="训练正确率")
         plt.plot(epochList, testAccList, color="red", label="测试正确率")
         plt.savefig(f"{modelNamePrefix}-{i}.png")
+        plt.show()
         torch.save(model, f"{modelNamePrefix}-{i}.pt")
 
 
-scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
-trainBenchmark("steplr", optimizer, scheduler, net)
-scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=0.00001)
-trainBenchmark("cosann", optimizer, scheduler, net)
-scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[
-    # 第一次调整基本上在第五次之后第十次之内
-    10,
-    20,
-    50,
-], gamma=0.1)
-trainBenchmark("cosann", optimizer, scheduler, net)
+trainBenchmark("steplr", "steplr", net)
+trainBenchmark("cosann", "cosann", net)
+trainBenchmark("multisteplr", "multisteplr", net)

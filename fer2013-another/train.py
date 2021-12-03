@@ -25,7 +25,7 @@ class Shake(Enum):
 
 
 # 训练模型
-def train(trainSet, validateSet, model, scheduler, optimizer, batchSize, epochs, learningRate):
+def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, learningRate):
     # 选择设备
     # 载入数据并分割batch
     train_loader = data.DataLoader(trainSet, batchSize, shuffle=True)
@@ -38,19 +38,23 @@ def train(trainSet, validateSet, model, scheduler, optimizer, batchSize, epochs,
     # 优化器
     # optimizer = optim.SGD(model.parameters(), lr=learningRate, weight_decay=wtDecay)
     # optimizer = optim.Adam(model.parameters(), lr=learningRate, weight_decay=wtDecay)
-    # optimizer = optim.AdamW(model.parameters(), lr=learningRate, weight_decay=0.1)
+    optimizer = optim.AdamW(model.parameters(), lr=learningRate, weight_decay=0.1)
     # 学习率衰减
-    # 逐步调整,10 次一减
-    # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
-    # 根据参数动态调整
-    # scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'max', verbose=1, patience=3)
-    # 余弦退火
-    # scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=0.00001)
-    # 多间隔
-    # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[
-    #     # 第一次调整基本上在第五次之后第十次之内
-    #     10,
-    # ], gamma=0.1)
+    if schedulerChoice == "steplr":
+        # 逐步调整,10 次一减
+        scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
+    if schedulerChoice == "cosann":
+        # 余弦退火
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=0.00001)
+    if schedulerChoice=="multisteplr":
+        # 多间隔
+        scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[
+            # 第一次调整基本上在第五次之后第十次之内
+            10,
+            20,
+            50,
+        ], gamma=0.1)
+
     lossRateList = []
     learnRateList = []
     trainAccList = []
@@ -118,15 +122,3 @@ def validate(model, dataset, batchSize):
 
     acc = result / num
     return acc
-
-
-trainDataSet = FaceDataSet.FaceDataSet(root="datasets-labeled", labelFile="train.csv")
-testDataSet = FaceDataSet.FaceDataSet(root='datasets-labeled', labelFile='test.csv')
-
-
-def doTrain(scheduler, model, modelName=""):
-    # 超参数可自行指定
-    model = train(trainDataSet, testDataSet, model,
-                  scheduler, batchSize=64, epochs=100, learningRate=0.001, wtDecay=0.3)
-    # 保存模型
-    torch.save(model, modelName)
