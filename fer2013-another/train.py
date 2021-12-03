@@ -46,8 +46,8 @@ def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, lear
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
     if schedulerChoice == "cosann":
         # 余弦退火
-        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=0.00001)
-    if schedulerChoice=="multisteplr":
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs)
+    if schedulerChoice == "multisteplr":
         # 多间隔
         scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[
             # 第一次调整基本上在第五次之后第十次之内
@@ -97,7 +97,7 @@ def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, lear
             trainAccList.append(trainAcc)
             testAccList.append(testAcc)
 
-    return model, lossRateList, learnRateList, trainAccList, testAccList,epochList
+    return model, lossRateList, learnRateList, trainAccList, testAccList, epochList
 
 
 def validate(model, dataset, batchSize):
