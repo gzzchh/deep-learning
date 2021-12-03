@@ -28,6 +28,7 @@ class Shake(Enum):
 def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, learningRate):
     # 选择设备
     # 载入数据并分割batch
+    global scheduler
     train_loader = data.DataLoader(trainSet, batchSize, shuffle=True)
     # 构建模型
     # model = FaceModel.FaceModel()
@@ -76,9 +77,6 @@ def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, lear
             # lossRate = lossFunction(output, labels)
             lossRate.backward()
             optimizer.step()
-            # 损失率不再减小就缩小学习率,适用于根据参数动态调整
-            # scheduler.step(lossRate)
-            # 余弦退火
             scheduler.step()
         # 测试模型
         # 打印每轮的损失

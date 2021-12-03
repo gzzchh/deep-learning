@@ -4,28 +4,27 @@
 import torch
 from matplotlib import pyplot as plt
 from torch import optim
-
+import DeepEmotionModel
 import FaceModel
 import train as mytrain
 import FaceDataSet
 
 trainDataSet = FaceDataSet.FaceDataSet(root="datasets-labeled", labelFile="train.csv")
 testDataSet = FaceDataSet.FaceDataSet(root='datasets-labeled', labelFile='test.csv')
-net = FaceModel.FaceModel()
+# net = FaceModel.FaceModel()
+net = DeepEmotionModel.DeepEmotionModel()
 learningRate = 0.001
 epochs = 100
 
 
-def trainBenchmark(modelNamePrefix, schedulerChoice, net):
+def trainBenchmark(modelNamePrefix, schedulerChoice, net, times=1):
     """
-    
-    :param modelNamePrefix: 
-    :param optimizer:  
+    测试训练
+    :param modelNamePrefix: 输出模型名称的前缀
     :param schedulerChoice: 在这里写选择的衰减函数名称
-    :param net: 
-    :return: 
+    :param net: 神经网络的模型
     """
-    for i in range(5):
+    for i in range(times):
         model, lossRateList, learnRateList, trainAccList, testAccList, epochList = mytrain.train(trainDataSet,
                                                                                                  testDataSet, net,
                                                                                                  schedulerChoice,
@@ -42,6 +41,6 @@ def trainBenchmark(modelNamePrefix, schedulerChoice, net):
         torch.save(model, f"{modelNamePrefix}-{i}.pt")
 
 
-trainBenchmark("steplr", "steplr", net)
-trainBenchmark("cosann", "cosann", net)
-trainBenchmark("multisteplr", "multisteplr", net)
+trainBenchmark("steplr", "steplr", net, times=5)
+trainBenchmark("cosann", "cosann", net, times=5)
+trainBenchmark("multisteplr", "multisteplr", net, times=5)
