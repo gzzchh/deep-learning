@@ -10,10 +10,10 @@ net.to(device)
 import cv2
 import matplotlib.pyplot as plt
 
-frame = cv2.imread('IMG_20190608_171842.jpg')
-# plt.imshow(frame, cv2.COLOR_BGR2RGB)
+frame = cv2.imread('DSC05404.jpg')
+# plt.imshow(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
-faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 # 转换成灰度
 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 faces = faceCascade.detectMultiScale(gray, 1.1, 4)

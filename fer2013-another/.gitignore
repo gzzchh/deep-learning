@@ -2,3 +2,4 @@ datasets-raw/
 datasets-labeled/
 __pycache__/
 *.jpg
+*.JPG
