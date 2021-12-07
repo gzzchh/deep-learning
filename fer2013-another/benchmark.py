@@ -57,7 +57,7 @@ def trainBenchmark(modelNamePrefix, schedulerChoice, net, times=1):
 
         plt.savefig(f"{modelNamePrefix}-{i}.png")
         plt.show()
-        torch.save(model, f"{modelNamePrefix}-{i}.pt")
+        torch.save(model.state_dict(), f"{modelNamePrefix}-{i}.pt")
 
 
 # trainBenchmark("steplr", "steplr", net, times=5)
