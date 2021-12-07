@@ -96,6 +96,11 @@ def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, lear
             print(f"已训练 {epoch + 1} 轮 acc_val (验证正确率) 是 : {testAcc}")
             trainAccList.append(trainAcc)
             testAccList.append(testAcc)
+            # 然后顺手保存
+            # torch.save({
+            #     'epoch': epoch,
+            #     'model_state_dict': model.state_dict(),
+            # }, f"{modelNamePrefix}-{i}.pt")
 
     return model, lossRateList, learnRateList, trainAccList, testAccList, epochList
 

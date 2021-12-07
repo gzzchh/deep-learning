@@ -1,6 +1,8 @@
 """
 测试各种衰减函数与模型
 """
+import os
+
 import pandas as pd
 import torch
 from matplotlib import pyplot as plt
@@ -26,6 +28,14 @@ def trainBenchmark(modelNamePrefix, schedulerChoice, net, times=1):
     :param net: 神经网络的模型
     """
     for i in range(times):
+        # 检测模型文件是否存在
+        # if os.path.exists(f"{modelNamePrefix}-{i}.pt"):
+        #     # 存在,看看训练到第几个epoch
+        #     checkpoint = torch.load(f"{modelNamePrefix}-{i}.pt")
+        #     startEpoch=checkpoint['epoch']
+        #     if startEpoch < epochs:
+        #         # 还需要继续啊
+        #         net.load_state_dict(checkpoint['model_state_dict'])
         model, lossRateList, learnRateList, trainAccList, testAccList, epochList = mytrain.train(trainDataSet,
                                                                                                  testDataSet, net,
                                                                                                  schedulerChoice,
@@ -60,9 +70,9 @@ def trainBenchmark(modelNamePrefix, schedulerChoice, net, times=1):
         torch.save(model.state_dict(), f"{modelNamePrefix}-{i}.pt")
 
 
-# trainBenchmark("steplr", "steplr", net, times=5)
-# trainBenchmark("cosann", "cosann", net, times=5)
-# trainBenchmark("multisteplr", "multisteplr", net, times=5)
+trainBenchmark("steplr", "steplr", net, times=5)
+trainBenchmark("cosann", "cosann", net, times=5)
+trainBenchmark("multisteplr", "multisteplr", net, times=5)
 
 
-trainBenchmark("cosann-best", "cosann", net, times=1)
+# trainBenchmark("cosann-best", "cosann", net, times=1)
