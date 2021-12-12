@@ -23,14 +23,15 @@ def plot(filename):
     # 第一张图,绘制 lossRate
     axes[0].plot(epoch, lossRate, color="blue", label="lossRate")
     axes[0].set_title("lossRate")
-    
+    axes[0].set_ylim(0.5, 2)
+
     # 第二张图,绘制 learnRate
     # 对于包含 steplr 的启用对数缩放
     if "steplr" in filename:
         axes[1].set_yscale("log", base=2)
     axes[1].plot(epoch, learnRate, color="orange", label="learnRate")
     axes[1].set_title("learnRate")
-  
+
     # 第三张图,绘制 trainAcc 和 testAcc
     # 设定 y 轴的范围 0 到 100
     axes[2].set_ylim(0, 100)
