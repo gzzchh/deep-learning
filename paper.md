@@ -117,13 +117,13 @@ scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[
 
 - AMD Ryzen 9 3900XT
 - RTX 2070 MQ
-- 48G RAM
+- 48G
 
 随后送去云端进行训练/记录/绘图
 
 - E5-2699v4 8vCore
 - P5000
--
+- 32G
 
 每一种跑 5 次,一次 200 轮,并且用 matplotlib 对记录的数据绘图.
 

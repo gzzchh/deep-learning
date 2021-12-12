@@ -70,8 +70,8 @@ def trainBenchmark(modelNamePrefix, schedulerChoice, net, times=1):
         torch.save(model.state_dict(), f"{modelNamePrefix}-{i}.pt")
 
 
-trainBenchmark("steplr", "steplr", net, times=5)
-trainBenchmark("cosann", "cosann", net, times=5)
+# trainBenchmark("steplr", "steplr", net, times=5)
+# trainBenchmark("cosann", "cosann", net, times=5)
 trainBenchmark("multisteplr", "multisteplr", net, times=5)
 
 

@@ -47,6 +47,7 @@ def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, lear
             10,
             20,
             50,
+            100,
         ], gamma=0.1)
 
     lossRateList = []
