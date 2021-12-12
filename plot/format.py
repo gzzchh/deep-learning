@@ -11,8 +11,10 @@ def reFormat(filename):
     # 必须取出为 Series 否则会存在顺序问题
     trainAcc = df.trainAcc
     testAcc = df.testAcc
-    df["trainAccFixed"] = [None] * 200
-    df["testAccFixed"] = [None] * 200
+    # print(type(df.trainAcc))
+    # print(type(df["trainAcc"]))
+    df["trainAccFixed"] = len(df)
+    df["testAccFixed"] = len(df)
     for index, row in df.iterrows():
         # 按照 5 次 1 格重新填充 trainAcc 和 testAcc
         accIndex = int((index + 1) / 5) - 1

@@ -17,13 +17,6 @@ import torch.nn as nn
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
 
-class Shake(Enum):
-    VANILLA = 7
-    CHOCOLATE = 4
-    COOKIES = 9
-    MINT = 3
-
-
 # 训练模型
 def train(trainSet, validateSet, model, schedulerChoice, batchSize, epochs, learningRate):
     # 选择设备
